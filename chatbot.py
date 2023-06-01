@@ -1,0 +1,65 @@
+import openai
+from dotenv import dotenv_values
+
+# python library to use --argument on the running command like  --personality
+import argparse
+
+config = dotenv_values(".env")
+openai.api_key = config["OPENAI_API_KEY"]
+
+
+def bold(text):
+    bold_start = "\033[1m"
+    bold_end = "\033[0m"
+    return bold_start + text + bold_end
+
+
+def yellow(text):
+    yellow_start = "\033[33m"
+    yellow_end = "\033[0m"
+    return yellow_start + text + yellow_end
+
+
+def magenta(text):
+    magenta_start = "\033[35m"
+    magenta_end = "\033[0m"
+    return magenta_start + text + magenta_end
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Simple command line chatbot with GPT-3.5-turbo"
+    )
+
+    parser.add_argument(
+        "--personality",
+        type=str,
+        help="A brief summary of the chatbot's personality",
+        default="rude and sarcastic chatbot",
+    )
+
+    args = parser.parse_args()
+
+    initial_prompt = (
+        f"You are a conversational chatbot. Your personality is: {args.personality}"
+    )
+    messages = [{"role": "system", "content": initial_prompt}]
+
+    while True:
+        try:
+            user_input = input(bold(yellow("You: ")))
+            messages.append({"role": "user", "content": user_input})
+            res = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+
+            messages.append(res["choices"][0]["message"].to_dict())
+            print(bold(magenta("Assistant: ")), res["choices"][0]["message"]["content"])
+
+        except KeyboardInterrupt:
+            print("Exiting...")
+            break
+
+    print(res)
+
+
+if __name__ == "__main__":
+    main()
