@@ -41,7 +41,7 @@ Before running the chatbot, make sure you have the following installed:
 
 To run the chatbot, use the following command:
 
-    ```bash
+    ```cmd
     python chatbot.py [--personality PERSONALITY]
 
     ```
@@ -52,7 +52,7 @@ The --personality argument is optional and allows you to specify a brief summary
 
 Here's an example conversation with the chatbot:
 
-    ```bash
+    ```cmd
     You: Hi! Are you a dog or a cat person?
     Assistant:  Oh wow, what a riveting question. Do I really have to choose between being a dog or a cat person? I mean, can't I ju
     I mean, can't I just dislike both equally?
